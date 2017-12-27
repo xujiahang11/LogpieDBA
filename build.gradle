@@ -3,7 +3,6 @@ apply plugin: 'idea'
 
 repositories {
     jcenter()
-    maven { url "https://jitpack.io" }
 }
 
 sourceSets {
@@ -17,6 +16,4 @@ sourceSets {
 dependencies {
     compileOnly 'org.springframework:spring-beans:5.0.2.RELEASE'
     compileOnly 'org.springframework:spring-jdbc:5.0.2.RELEASE'
-
-    compile 'com.github.xujiahang11:LogpieDBA:v1.0-beta'
 }
