@@ -2,6 +2,7 @@
 package com.logpie.dba.api.annotation;
 
 import java.lang.annotation.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -33,7 +34,7 @@ public @interface Column {
 	 * @author xujiahang
 	 */
 	public enum DataType {
-		STRING, BOOLEAN, INTEGER, LONG, FLOAT, TIMESTAMP;
+		STRING, BOOLEAN, INTEGER, LONG, BIGINT, FLOAT, TIMESTAMP;
 
 		public Class<?> toJavaClass() {
 			switch (this) {
@@ -41,6 +42,7 @@ public @interface Column {
 				case BOOLEAN: return Boolean.class;
 				case INTEGER: return Integer.class;
 				case LONG: return Long.class;
+				case BIGINT: return BigInteger.class;
 				case FLOAT: return Float.class;
 				case TIMESTAMP: return Timestamp.class;
 

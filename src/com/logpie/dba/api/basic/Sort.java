@@ -59,7 +59,7 @@ public class Sort implements Iterable<Sort.Order> {
 	 * @param key
 	 * @return the order registered for the given key
 	 */
-	public Sort.Order getOrderFor(String key) {
+	public Order getOrderFor(String key) {
 		for (Order order : orders) {
 			if (order.getKey().equals(key)) {
 				return order;
@@ -95,15 +95,15 @@ public class Sort implements Iterable<Sort.Order> {
 	}
 
 	public static class Order {
-		private Sort.Direction direction;
+		private Direction direction;
 		private String key;
 
-		public Order(Sort.Direction direction, String key) {
+		public Order(Direction direction, String key) {
 			this.direction = direction == null ? Direction.ASC : direction;
 			this.key = key;
 		}
 
-		public Sort.Direction getDirection() {
+		public Direction getDirection() {
 			return direction;
 		}
 

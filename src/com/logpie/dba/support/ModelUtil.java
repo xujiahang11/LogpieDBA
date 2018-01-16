@@ -1,7 +1,10 @@
 package com.logpie.dba.support;
 
 
-import com.logpie.dba.api.annotation.*;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.ID;
 import com.logpie.dba.api.basic.KVP;
 import com.logpie.dba.api.basic.Model;
 import com.logpie.dba.api.basic.Table;
@@ -15,7 +18,7 @@ import java.util.logging.Logger;
 public class ModelUtil {
 
 	private static final String CLASSNAME = ModelUtil.class.getName();
-	private static final Logger logger = Logger.getLogger(CLASSNAME);
+	private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
 	/**
 	 * get a list of Key-Value Pair objects of model
@@ -92,7 +95,7 @@ public class ModelUtil {
 			}
 		}
 
-		logger.log(Level.WARNING, "Cannot find any ID from this table");
+		LOG.log(Level.WARNING, "Cannot find any ID from this table");
 		return null;
 	}
 

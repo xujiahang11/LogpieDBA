@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class ReflectionUtil {
 
     private static final String CLASSNAME = ModelUtil.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private static final String SET = "set";
     private static final String GET = "get";
@@ -27,16 +27,16 @@ public class ReflectionUtil {
             final Constructor constructor = clazz.getConstructor();
             return constructor.newInstance();
         } catch (NoSuchMethodException ex) {
-            logger.log(Level.SEVERE, "No default constructor! You need to create a default constructor with no parameters");
+            LOG.log(Level.SEVERE, "No default constructor! You need to create a default constructor with no parameters");
             ex.printStackTrace();
         } catch (IllegalAccessException ex) {
-            logger.log(Level.SEVERE,"Default constructor can't be accessed. Please set your default constructor as public.");
+            LOG.log(Level.SEVERE,"Default constructor can't be accessed. Please set your default constructor as public.");
             ex.printStackTrace();
         } catch (InstantiationException ex) {
-            logger.log(Level.SEVERE,"Can't instantiate the class.");
+            LOG.log(Level.SEVERE,"Can't instantiate the class.");
             ex.printStackTrace();
         } catch (InvocationTargetException ex) {
-            logger.log(Level.SEVERE,"InvocationTargetException when calling the constructor");
+            LOG.log(Level.SEVERE,"InvocationTargetException when calling the constructor");
             ex.printStackTrace();
         }
         return null;
@@ -51,21 +51,19 @@ public class ReflectionUtil {
             final Method getMethod = model.getClass().getMethod(targetMethodName);
             return getMethod.invoke(model);
         } catch (IllegalAccessException e) {
-            logger.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
+            LOG.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            logger.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
+            LOG.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            logger.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
+            LOG.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
-            logger.log(Level.SEVERE, "Cannot find getter method: " + targetMethodName);
+            LOG.log(Level.SEVERE, "Cannot find getter method: " + targetMethodName);
             e.printStackTrace();
         }
-
-        logger.log(Level.WARNING, "cannot find getter method for this field");
-        return null;
+        throw new RuntimeException();
     }
 
     public static void runSetter(final Field field, final Object model, final Class<?> valueClazz, final Object value) {
@@ -78,19 +76,19 @@ public class ReflectionUtil {
             setMethod.invoke(model, value);
             return;
         } catch (IllegalAccessException e) {
-            logger.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
+            LOG.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            logger.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
+            LOG.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            logger.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
+            LOG.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
-            logger.log(Level.SEVERE, "Cannot find setter method: " + targetMethodName);
+            LOG.log(Level.SEVERE, "Cannot find setter method: " + targetMethodName);
             e.printStackTrace();
         }
-
+        throw new RuntimeException();
     }
 
     private static String capitalize(String name) {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public interface SimpleRepository<T extends Model, S extends Serializable> {
 
-	public S insert(T model);
+	public T insert(T model);
 
 	public void update(T model);
 

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class TableUtil {
 
 	private static final String CLASSNAME = TableUtil.class.getName();
-	private static final Logger logger = Logger.getLogger(CLASSNAME);
+	private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
 	// TODO: cache all columns with alias of tables
 	private static final Map<Class<?>, List<String>> columnCache = new HashMap<>();
@@ -35,7 +35,7 @@ public class TableUtil {
 				return field.getAnnotation(Column.class).name();
 			}
 		}
-		logger.log(Level.WARNING, "Cannot find any ID from this table");
+		LOG.log(Level.WARNING, "Cannot find any ID from this table");
 		return null;
 	}
 

@@ -2,15 +2,19 @@ package com.logpie.dba.api.basic;
 
 import com.logpie.dba.api.annotation.Column;
 import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.dba.support.ReflectionUtil;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
-public class Model implements RowMapper<Model> {
+public abstract class Model implements RowMapper<Model> {
+
+    private static final String CLASSNAME = Model.class.getName();
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     @Override
     public Model mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -25,9 +29,10 @@ public class Model implements RowMapper<Model> {
                     Column annotation = field.getAnnotation(Column.class);
                     Column.DataType dataType = annotation.type();
                     try {
-                        ReflectionUtil.runSetter(field, mappedObject, dataType.toJavaClass(), rs.getString(annotation.name()));
+                        LOG.info("javaClass:" + dataType.toJavaClass());
+                        ReflectionUtil.runSetter(field, mappedObject, dataType.toJavaClass(), rs.getObject(annotation.name()));
                     } catch (SQLException e) {
-                        System.out.println("SQLException when trying to get object from ResultSet for key: " + columnAnnotation.name());
+                        LOG.severe("SQLException when trying to get object from ResultSet for key: " + columnAnnotation.name());
                         e.printStackTrace();
                     }
                 }
@@ -39,7 +44,7 @@ public class Model implements RowMapper<Model> {
                             final RowMapper foreignEntityClassRowMapper = (RowMapper) ReflectionUtil.buildInstanceByDefaultConstructor(foreignEntityClass);
                             ReflectionUtil.runSetter(field, mappedObject, foreignEntityClass, foreignEntityClassRowMapper.mapRow(rs, rowNum));
                         } catch (SQLException e) {
-                            System.out.println("SQLException when trying to get object from ResultSet for key: " + foreignKeyColumnAnnotation.name());
+                            LOG.severe("SQLException when trying to get object from ResultSet for key: " + foreignKeyColumnAnnotation.name());
                             e.printStackTrace();
                         }
                     }

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class SqlUtil {
 
 	private static final String CLASSNAME = SqlUtil.class.getName();
-	private static final Logger logger = Logger.getLogger(CLASSNAME);
+	private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
 	public static String insertSQL(final Model model) {
 		String tableName = TableUtil.getTableName(model.getClass());
@@ -39,7 +39,7 @@ public class SqlUtil {
 
 		String sql = "insert into " + tableName + "(" + keys.toString()
 				+ ") values (" + values.toString() + ")";
-		logger.log(Level.INFO, "INSERT SQL: " + sql);
+		LOG.log(Level.INFO, "INSERT SQL: " + sql);
 
 		return sql;
 	}
@@ -73,7 +73,7 @@ public class SqlUtil {
 				.getClass()), id);
 		sql.append(whereSQL(model.getClass(), cond));
 
-		logger.log(Level.INFO, "UPDATE SQL: " + sql);
+		LOG.log(Level.INFO, "UPDATE SQL: " + sql);
 		return sql.toString();
 	}
 
@@ -88,7 +88,7 @@ public class SqlUtil {
 		sql.append("select * from " + TableUtil.getTableName(c));
 		sql.append(joinSQL(c));
 
-		logger.log(Level.INFO, "QUERY SQL: " + sql.toString());
+		LOG.log(Level.INFO, "QUERY SQL: " + sql.toString());
 		return sql.toString();
 	}
 
@@ -181,7 +181,7 @@ public class SqlUtil {
 					+ param.valueToString());
 		}
 
-		logger.log(Level.INFO, "QUERY BY WHERE CLAUSE: " + sql.toString());
+		LOG.log(Level.INFO, "QUERY BY WHERE CLAUSE: " + sql.toString());
 		return sql.toString();
 	}
 
@@ -207,7 +207,7 @@ public class SqlUtil {
 
 			// check if alias of referenced table is unique
 			if (aliasSet.contains(refAlias.toLowerCase())) {
-				logger.log(Level.SEVERE, "foreign table alias duplicates");
+				LOG.log(Level.SEVERE, "foreign table alias duplicates");
 				return null;
 			}
 			aliasSet.add(refAlias);
