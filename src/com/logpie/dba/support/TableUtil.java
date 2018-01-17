@@ -39,14 +39,24 @@ public class TableUtil {
 		return null;
 	}
 
+	public static String toSqlString(Object obj) {
+		Assert.notNull(obj, "Value must not be null");
+
+		if (obj instanceof Boolean || obj instanceof Number
+				|| obj instanceof Timestamp) {
+			return String.valueOf(obj);
+		}
+		return "'" + SqlUtil.clearIllegalCharacters(obj.toString()) + "'";
+	}
+
 	/**
 	 * get columns of table c
 	 * 
-	 * @param c
-	 * @param tableAlias
+	 * @param c model class
+	 * @param tableAlias custom table alias or null
 	 * @return table name/table alias + "." + column names
 	 */
-	public static List<String> getColumnsWithAlias(final Class<?> c,
+	static List<String> getColumnsWithAlias(final Class<?> c,
 			final String tableAlias) {
 		List<String> res = new ArrayList<>();
 
@@ -76,10 +86,10 @@ public class TableUtil {
 	/**
 	 * get all columns from table c and all other referenced tables
 	 * 
-	 * @param c
+	 * @param c model class
 	 * @return column names with table alias or name
 	 */
-	public static List<String> getAllColumnsWithAlias(final Class<?> c) {
+	static List<String> getAllColumnsWithAlias(final Class<?> c) {
 		List<String> res = new ArrayList<>();
 		res.addAll(getColumnsWithAlias(c, null));
 
@@ -94,12 +104,12 @@ public class TableUtil {
 
 	/**
 	 * 
-	 * @param c
+	 * @param c model class
 	 * @param alias
 	 *            set alias of table c
-	 * @return
+	 * @return list of all foreign keys
 	 */
-	public static List<ForeignKey> getAllForeignKeys(final Class<?> c,
+	static List<ForeignKey> getAllForeignKeys(final Class<?> c,
 			final String alias) {
 		List<ForeignKey> res = new ArrayList<>();
 
@@ -153,10 +163,10 @@ public class TableUtil {
 	 * e.g "OrderShop" means an alias for a Shop table which is referred by an
 	 * Order table
 	 * 
-	 * @param key
-	 * @return
+	 * @param key foreign key
+	 * @return original alias or auto-generated alias
 	 */
-	public static String getOrAutoGenerateRefAlias(final ForeignKey key) {
+	static String getOrAutoGenerateRefAlias(final ForeignKey key) {
 		Assert.notNull(key, "Foreign key must not be null");
 
 		String originalAlias = key.getRefTableAlias();
@@ -170,17 +180,6 @@ public class TableUtil {
 			return originalAlias;
 		}
 	}
-
-	public static String toSqlString(Object obj) {
-		Assert.notNull(obj, "Value must not be null");
-
-		if (obj instanceof Boolean || obj instanceof Number
-				|| obj instanceof Timestamp) {
-			return String.valueOf(obj);
-		}
-		return "'" + SqlUtil.clearIllegalCharacters(obj.toString()) + "'";
-	}
-
 
 	private static Entity getEntityAnnotation(final Class<?> c) {
 		Assert.notNull(c, "Class must not be null");

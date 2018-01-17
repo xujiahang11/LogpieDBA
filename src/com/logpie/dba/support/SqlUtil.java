@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class SqlUtil {
 
-	private static final String CLASSNAME = SqlUtil.class.getName();
+	private static final String CLASSNAME = ModelUtil.class.getName();
 	private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
 	public static String insertSQL(final Model model) {
@@ -19,8 +19,8 @@ public class SqlUtil {
 
 		Assert.notEmpty(keyValuePairs, "Cannot get model map for INSERT");
 
-		StringBuffer keys = new StringBuffer();
-		StringBuffer values = new StringBuffer();
+		StringBuilder keys = new StringBuilder();
+		StringBuilder values = new StringBuilder();
 
 		for (KVP keyValuePair : keyValuePairs) {
 
@@ -37,11 +37,7 @@ public class SqlUtil {
 			values.append(keyValuePair.valueToString());
 		}
 
-		String sql = "insert into " + tableName + "(" + keys.toString()
-				+ ") values (" + values.toString() + ")";
-		LOG.log(Level.INFO, "INSERT SQL: " + sql);
-
-		return sql;
+		return "insert into " + tableName + "(" + keys.toString() + ") values (" + values.toString() + ")";
 	}
 
 	public static String updateSQL(final Model model) {
@@ -50,7 +46,7 @@ public class SqlUtil {
 		List<KVP> keyValuePairs = ModelUtil.getModelKVP(model, false);
 		Assert.notEmpty(keyValuePairs, "Cannot get model map for UPDATE");
 
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 		sql.append("update " + tableName + " set ");
 
 		int i = 0;
@@ -73,23 +69,17 @@ public class SqlUtil {
 				.getClass()), id);
 		sql.append(whereSQL(model.getClass(), cond));
 
-		LOG.log(Level.INFO, "UPDATE SQL: " + sql);
 		return sql.toString();
 	}
 
 	/**
 	 * a query sql without any conditional sql, using left join connections
 	 * 
-	 * @param c
-	 * @return
+	 * @param c model class
+	 * @return sql
 	 */
 	public static String queryAllSQL(final Class<?> c) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from " + TableUtil.getTableName(c));
-		sql.append(joinSQL(c));
-
-		LOG.log(Level.INFO, "QUERY SQL: " + sql.toString());
-		return sql.toString();
+		return "select * from " + TableUtil.getTableName(c) + joinSQL(c);
 	}
 
 	public static String queryBySQL(final Class<?> c, final Parameter... params) {
@@ -107,9 +97,9 @@ public class SqlUtil {
 			return queryAllSQL(c);
 		}
 
-		StringBuffer sql = new StringBuffer(queryAllSQL(c));
+		StringBuilder sql = new StringBuilder(queryAllSQL(c));
 
-		/**
+		/*
 		 * 分页SQL语句
 		 * 
 		 * select * from table ... join (select #id# from table where ... order
@@ -120,7 +110,8 @@ public class SqlUtil {
 		String alias = "Inner" + TableUtil.getTableName(c);
 
 		sql.append(" join (select " + id + " from " + table);
-		/**
+
+		/*
 		 * 这里的where查询语句是关于分页中的where条件，目前只能查询关于主表中columns的相关条件，
 		 * 不支持查询主表中其他子表的columns条件
 		 */
@@ -146,7 +137,7 @@ public class SqlUtil {
 	public static String orderBySQL(final Sort sort) {
 		Assert.notNull(sort, "Sort must not be null");
 
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 		sql.append(" order by ");
 
 		int i = 0;
@@ -164,7 +155,7 @@ public class SqlUtil {
 	public static String whereSQL(final Class<?> c, final Parameter... params) {
 		Assert.notEmpty(params, "Parameter must not be null or empty");
 
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 		sql.append(" where ");
 
 		for (int i = 0; i < params.length; i++) {
@@ -175,22 +166,20 @@ public class SqlUtil {
 
 			Parameter param = params[i];
 			String column = findColumn(c, param);
-			//Assert.notNull(column, "Cannot find corresponding column");
-
+			
 			sql.append(column + " " + param.getOperator() + " "
 					+ param.valueToString());
 		}
 
-		LOG.log(Level.INFO, "QUERY BY WHERE CLAUSE: " + sql.toString());
 		return sql.toString();
 	}
 
-	public static String clearIllegalCharacters(final String s) {
+	static String clearIllegalCharacters(final String s) {
 		return s.replaceAll(".*([';]+|(--)+).*", "");
 	}
 
 	private static String joinSQL(final Class<?> c) {
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 
 		Set<String> aliasSet = new HashSet<>();
 		List<ForeignKey> foreignKeys = TableUtil.getAllForeignKeys(c, null);

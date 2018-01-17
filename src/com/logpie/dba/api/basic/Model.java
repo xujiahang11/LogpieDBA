@@ -30,7 +30,6 @@ public abstract class Model implements RowMapper<Model> {
                     Column annotation = field.getAnnotation(Column.class);
                     Column.DataType dataType = annotation.type();
                     try {
-                        LOG.info("javaClass:" + dataType.toJavaClass());
                         ReflectionUtil.runSetter(field, mappedObject, dataType.toJavaClass(), rs.getObject(annotation.name()));
                     } catch (SQLException e) {
                         LOG.severe("SQLException when trying to get object from ResultSet for key: " + columnAnnotation.name());
