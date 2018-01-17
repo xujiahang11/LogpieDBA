@@ -19,7 +19,8 @@ public abstract class Model implements RowMapper<Model> {
     @Override
     public Model mapRow(ResultSet rs, int rowNum) throws SQLException {
         final Class clazz = this.getClass();
-        final Model mappedObject = (Model)ReflectionUtil.buildInstanceByDefaultConstructor(clazz);
+        final Model mappedObject = (Model) ReflectionUtil.buildInstanceByDefaultConstructor(clazz);
+
         // Call setter methods.
         if (mappedObject != null) {
             Arrays.asList(clazz.getDeclaredFields()).forEach(field -> {

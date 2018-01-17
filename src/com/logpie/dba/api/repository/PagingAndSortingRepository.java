@@ -8,7 +8,7 @@ import com.logpie.dba.api.basic.Parameter;
 
 import java.io.Serializable;
 
-public interface PagingAndSortingRepository<T extends Model, ID extends Serializable> {
+public interface PagingAndSortingRepository<T extends Model, S extends Serializable> {
 
 	public Page<T> queryAll(Pageable pageable);
 

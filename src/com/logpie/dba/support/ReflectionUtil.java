@@ -30,10 +30,10 @@ public class ReflectionUtil {
             LOG.log(Level.SEVERE, "No default constructor! You need to create a default constructor with no parameters");
             ex.printStackTrace();
         } catch (IllegalAccessException ex) {
-            LOG.log(Level.SEVERE,"Default constructor can't be accessed. Please set your default constructor as public.");
+            LOG.log(Level.SEVERE,"Default constructor can't be accessed. Please set your default constructor as public");
             ex.printStackTrace();
         } catch (InstantiationException ex) {
-            LOG.log(Level.SEVERE,"Can't instantiate the class.");
+            LOG.log(Level.SEVERE,"Can't instantiate the class");
             ex.printStackTrace();
         } catch (InvocationTargetException ex) {
             LOG.log(Level.SEVERE,"InvocationTargetException when calling the constructor");
@@ -54,7 +54,7 @@ public class ReflectionUtil {
             LOG.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
+            LOG.log(Level.SEVERE, "Passed illegal argument to this method: " + targetMethodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             LOG.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
@@ -79,7 +79,7 @@ public class ReflectionUtil {
             LOG.log(Level.SEVERE, "Cannot get access to this method, you need to set public to the setters");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.SEVERE, "Passed illegal argument to this method:" + targetMethodName);
+            LOG.log(Level.SEVERE, "Passed illegal argument to this method: " + targetMethodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             LOG.log(Level.SEVERE, "This method cannot be invoked" + targetMethodName);
