@@ -1,36 +1,38 @@
 package com.logpie.dba.sample;
 
-import com.logpie.dba.api.annotation.AutoGenerate;
-import com.logpie.dba.api.annotation.Column;
-import com.logpie.dba.api.annotation.ID;
-import com.logpie.dba.api.basic.Model;
+import com.logpie.dba.annotation.AutoGenerate;
+import com.logpie.dba.annotation.Column;
+import com.logpie.dba.annotation.Entity;
+import com.logpie.dba.annotation.ID;
+import com.logpie.dba.core.Model;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
+@Entity(table = "SAMPLE_TABLE")
 public class SampleModelWithAGBigIntId extends Model {
     @ID
     @AutoGenerate(strategy = AutoGenerate.AutoGenerateType.NumberAutoIncrement)
-    @Column(name = "SAMPLE_MODEL_ID", type = Column.DataType.BIGINT)
+    @Column(label = "SAMPLE_MODEL_ID", type = Column.DataType.BIGINT)
     private BigInteger id;
 
-    @Column(name = "SAMPLE_MODEL_MESSAGE", type = Column.DataType.STRING)
+    @Column(label = "SAMPLE_MODEL_MESSAGE", type = Column.DataType.STRING)
     private String message;
 
-    @Column(name = "SAMPLE_MODEL_IS_TRUE", type = Column.DataType.BOOLEAN)
+    @Column(label = "SAMPLE_MODEL_IS_TRUE", type = Column.DataType.BOOLEAN)
     private Boolean isTrue;
 
-    @Column(name = "SAMPLE_MODEL_INT_NUMBER", type = Column.DataType.INTEGER)
+    @Column(label = "SAMPLE_MODEL_INT_NUMBER", type = Column.DataType.INTEGER)
     private Integer intNumber;
 
-    @Column(name = "SAMPLE_MODEL_LONG_NUMBER", type = Column.DataType.LONG)
+    @Column(label = "SAMPLE_MODEL_LONG_NUMBER", type = Column.DataType.LONG)
     private Long longNumber;
 
-    @Column(name = "SAMPLE_MODEL_FLOAT_NUMBER", type = Column.DataType.FLOAT)
+    @Column(label = "SAMPLE_MODEL_FLOAT_NUMBER", type = Column.DataType.FLOAT)
     private Float floatNumber;
 
     @AutoGenerate(strategy = AutoGenerate.AutoGenerateType.CurrentTime)
-    @Column(name = "SAMPLE_MODEL_TIMESTAMP", type = Column.DataType.TIMESTAMP)
+    @Column(label = "SAMPLE_MODEL_TIMESTAMP", type = Column.DataType.TIMESTAMP)
     private Timestamp timestamp;
 
     private String messageWithPrivateGetterAndSetter = "private message";

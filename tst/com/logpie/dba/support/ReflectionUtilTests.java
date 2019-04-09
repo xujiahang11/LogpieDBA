@@ -1,5 +1,6 @@
 package com.logpie.dba.support;
 
+import com.logpie.dba.api.repository.ReflectionUtil;
 import com.logpie.dba.sample.SampleModelWithAGBigIntId;
 import org.junit.Before;
 import org.junit.Test;

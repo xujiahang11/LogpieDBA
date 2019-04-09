@@ -1,8 +1,8 @@
 package com.logpie.dba.factory;
 
-import com.logpie.dba.api.annotation.Column;
-import com.logpie.dba.api.basic.Model;
-import com.logpie.dba.api.repository.JDBCTemplateRepository;
+import com.logpie.dba.annotation.Column;
+import com.logpie.dba.core.Model;
+import com.logpie.dba.core.JDBCTemplateRepository;
 import com.logpie.dba.sample.*;
 
 public class SamplesFactory {
